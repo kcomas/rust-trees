@@ -1,7 +1,7 @@
 
 use std::cell::RefCell;
 use std::rc::Rc;
-use super::node::Node;
+use super::node::{Node, IsNode};
 
 struct Item {
     value: i64,
@@ -16,7 +16,7 @@ pub struct Printer {
 }
 
 impl Printer {
-    pub fn new(root: Rc<RefCell<Node>>) -> Printer {
+    pub fn new(root: IsNode) -> Printer {
         let mut print = Printer { levels: Vec::new() };
 
         let level_counter = 0;
@@ -71,7 +71,7 @@ fn insert(print: &mut Printer, value: i64, level_counter: usize) {
     }
 }
 
-fn traverse(print: &mut Printer, node: &Rc<RefCell<Node>>, level_counter: usize) {
+fn traverse(print: &mut Printer, node: &IsNode, level_counter: usize) {
     let n = node.borrow();
 
     insert(print, n.value as i64, level_counter);

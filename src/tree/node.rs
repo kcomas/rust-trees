@@ -2,17 +2,18 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-pub type IsNode = Option<Rc<RefCell<Node>>>;
+pub type IsNode = Rc<RefCell<Node>>;
+pub type MabeNode = Option<IsNode>;
 
 pub struct Node {
-    parent: IsNode,
-    pub left: IsNode,
-    pub right: IsNode,
+    parent: MabeNode,
+    pub left: MabeNode,
+    pub right: MabeNode,
     pub value: u32,
 }
 
 impl Node {
-    pub fn new(parent: IsNode, value: u32) -> Rc<RefCell<Node>> {
+    pub fn new(parent: MabeNode, value: u32) -> IsNode {
         Rc::new(RefCell::new(Node {
             parent: parent,
             left: None,
@@ -21,12 +22,29 @@ impl Node {
         }))
     }
 
-    pub fn insert_child(&mut self, child: Rc<RefCell<Node>>) {
+    pub fn insert_child(&mut self, child: IsNode) {
         let c = child.borrow();
         if c.value < self.value {
             self.left = Some(child.clone());
         } else if c.value > self.value {
             self.right = Some(child.clone());
+        }
+    }
+
+    pub fn add_child(&mut self, child: &IsNode) {
+        let c = child.borrow();
+        if c.value < self.value {
+            if let Some(ref left) = self.left {
+                left.borrow_mut().add_child(child);
+            } else {
+                self.left = Some(child.clone());
+            }
+        } else if c.value > self.value {
+            if let Some(ref right) = self.right {
+                right.borrow_mut().add_child(child);
+            } else {
+                self.right = Some(child.clone());
+            }
         }
     }
 

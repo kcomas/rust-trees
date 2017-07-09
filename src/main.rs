@@ -2,6 +2,7 @@
 mod tree;
 use tree::node::Node;
 use tree::printer::Printer;
+use tree::container::Container;
 
 fn print_test(name: &str) {
     println!("------ {} ------", name);

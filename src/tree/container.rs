@@ -1,8 +1,8 @@
 
-use super::node::{IsNode, Node};
+use super::node::{MabeNode, IsNode, Node};
 
-struct Container {
-    root: IsNode,
+pub struct Container {
+    root: MabeNode,
 }
 
 impl Container {
