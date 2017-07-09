@@ -6,11 +6,11 @@ pub struct Node {
     parent: Option<Rc<RefCell<Node>>>,
     pub left: Option<Rc<RefCell<Node>>>,
     pub right: Option<Rc<RefCell<Node>>>,
-    pub value: i32,
+    pub value: u32,
 }
 
 impl Node {
-    pub fn new(parent: Option<Rc<RefCell<Node>>>, value: i32) -> Rc<RefCell<Node>> {
+    pub fn new(parent: Option<Rc<RefCell<Node>>>, value: u32) -> Rc<RefCell<Node>> {
         Rc::new(RefCell::new(Node {
             parent: parent,
             left: None,
@@ -42,5 +42,4 @@ impl Node {
         }
         println!("-----");
     }
-
 }

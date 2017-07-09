@@ -4,7 +4,7 @@ use std::rc::Rc;
 use super::node::Node;
 
 struct Item {
-    value: i32
+    value: i64,
 }
 
 struct Level {
@@ -36,9 +36,8 @@ impl Printer {
     }
 }
 
-fn traverse(print: &mut Printer, node: &Rc<RefCell<Node>>, level_counter: usize) {
-    let n = node.borrow();
-    let item = Item { value: n.value };
+fn insert(print: &mut Printer, value: i64, level_counter: usize) {
+    let item = Item { value: value };
 
     if print.levels.len() > level_counter {
         print.levels[level_counter].items.push(item);
@@ -47,11 +46,21 @@ fn traverse(print: &mut Printer, node: &Rc<RefCell<Node>>, level_counter: usize)
         level.items.push(item);
         print.levels.push(level);
     }
+}
+
+fn traverse(print: &mut Printer, node: &Rc<RefCell<Node>>, level_counter: usize) {
+    let n = node.borrow();
+
+    insert(print, n.value as i64, level_counter);
 
     if let Some(ref child) = n.left {
         traverse(print, child, level_counter + 1);
+    } else {
+        insert(print, -1, level_counter + 1);
     }
     if let Some(ref child) = n.right {
         traverse(print, child, level_counter + 1);
+    } else {
+        insert(print, -1, level_counter + 1);
     }
 }
