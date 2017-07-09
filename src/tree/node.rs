@@ -31,19 +31,23 @@ impl Node {
         }
     }
 
-    pub fn add_child(&mut self, child: &IsNode) {
+    pub fn add_child(&mut self, child: &IsNode, parent: &IsNode) {
         let c = child.borrow();
         if c.value < self.value {
             if let Some(ref left) = self.left {
-                left.borrow_mut().add_child(child);
+                left.borrow_mut().add_child(child, left);
             } else {
-                self.left = Some(child.clone());
+                let new_child = child.clone();
+                new_child.borrow_mut().parent = Some(parent.clone());
+                self.left = Some(new_child);
             }
         } else if c.value > self.value {
             if let Some(ref right) = self.right {
-                right.borrow_mut().add_child(child);
+                right.borrow_mut().add_child(child, right);
             } else {
-                self.right = Some(child.clone());
+                let new_child = child.clone();
+                new_child.borrow_mut().parent = Some(parent.clone());
+                self.right = Some(new_child);
             }
         }
     }
