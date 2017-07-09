@@ -15,6 +15,7 @@ pub struct Node {
 enum NodeType {
     Left,
     Right,
+    Root,
 }
 
 impl Node {
@@ -52,6 +53,7 @@ impl Node {
             NodeType::Right => {
                 self.right = new_child;
             }
+            _ => (),
         }
     }
 
@@ -118,11 +120,11 @@ impl Node {
     }
 
     pub fn print_tree(&self) {
-        recurse_print(self, 0);
+        recurse_print(self, 0, NodeType::Root);
     }
 }
 
-fn recurse_print(node: &Node, level_counter: usize) {
+fn recurse_print(node: &Node, level_counter: usize, n_type: NodeType) {
 
     let mut x = 0;
     while x < (level_counter * 2) {
@@ -136,17 +138,23 @@ fn recurse_print(node: &Node, level_counter: usize) {
         print!("X");
     }
 
+    match n_type {
+        NodeType::Left => print!("L"),
+        NodeType::Right => print!("R"),
+        NodeType::Root => print!("^"),
+    }
+
     print!("-:{}", node.value);
     println!("");
 
     if let Some(ref c) = node.left {
         let left = c.borrow();
-        recurse_print(&*left, level_counter + 1);
+        recurse_print(&*left, level_counter + 1, NodeType::Left);
     }
 
     if let Some(ref c) = node.right {
         let right = c.borrow();
-        recurse_print(&*right, level_counter + 1);
+        recurse_print(&*right, level_counter + 1, NodeType::Right);
     }
 
 }
