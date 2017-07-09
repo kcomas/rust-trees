@@ -29,6 +29,16 @@ fn main() {
         r.add_child(sub_right.clone());
         r.print();
     }
-    let printer = Printer::new(root);
-    printer.basic_print();
+    {
+        let printer = Printer::new(root.clone());
+        printer.basic_print();
+    }
+    {
+        let r = root.borrow();
+        r.print_tree();
+    }
+    {
+        let l = left.borrow();
+        l.print_tree();
+    }
 }

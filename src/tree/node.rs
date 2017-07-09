@@ -42,4 +42,31 @@ impl Node {
         }
         println!("-----");
     }
+
+    pub fn print_tree(&self) {
+        recurse_print(self, 0);
+    }
+}
+
+fn recurse_print(node: &Node, level_counter: usize) {
+
+    let mut x = 0;
+    while x < (level_counter * 2) {
+        print!("-");
+        x += 1;
+    }
+
+    print!("-:{}", node.value);
+    println!("");
+
+    if let Some(ref c) = node.left {
+        let left = c.borrow();
+        recurse_print(&*left, level_counter + 1);
+    }
+
+    if let Some(ref c) = node.right {
+        let right = c.borrow();
+        recurse_print(&*right, level_counter + 1);
+    }
+
 }

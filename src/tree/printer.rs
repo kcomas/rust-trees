@@ -26,6 +26,19 @@ impl Printer {
         print
     }
 
+    fn largest(&self) -> (usize, usize) {
+        let longest_line = self.levels[self.levels.len() - 1].items.len();
+        let mut largest_number = 0;
+        for level in self.levels.iter() {
+            for item in level.items.iter() {
+                if item.value > largest_number {
+                    largest_number = item.value;
+                }
+            }
+        }
+        (longest_line, number_magnatude(largest_number as f64))
+    }
+
     pub fn basic_print(&self) {
         for (i, level) in self.levels.iter().enumerate() {
             println!("Level: {}", i);
@@ -33,7 +46,17 @@ impl Printer {
                 println!("Position: {}, Value: {}", subi, item.value);
             }
         }
+        let (longest, largest) = self.largest();
+        println!("Longest: {}, Largest: {}", longest, largest);
     }
+}
+
+
+fn number_magnatude(mut float: f64) -> usize {
+    float = float.log(10.0);
+    float = float.floor();
+    float += 1.0;
+    float as usize
 }
 
 fn insert(print: &mut Printer, value: i64, level_counter: usize) {
