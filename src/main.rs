@@ -4,6 +4,9 @@ use tree::node::Node;
 use tree::printer::Printer;
 use tree::container::Container;
 
+extern crate rand;
+use rand::Rng;
+
 fn print_test(name: &str) {
     println!("------ {} ------", name);
 }
@@ -51,6 +54,14 @@ fn basic_tests() {
 }
 
 fn container_test() {
+    print_test("Container");
+    let cont = Container::new(50);
+    #[allow(unused_variables)]
+    for x in 0..10 {
+        let num: u32 = rand::thread_rng().gen_range(0, 100);
+        cont.add_value(x);
+    }
+    cont.print_tree();
     print_test("Container");
 }
 
