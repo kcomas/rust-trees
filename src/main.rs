@@ -59,7 +59,7 @@ fn container_test() {
     #[allow(unused_variables)]
     for x in 0..10 {
         let num: u32 = rand::thread_rng().gen_range(0, 100);
-        cont.add_value(x);
+        cont.add_value(num);
     }
     cont.print_tree();
     print_test("Container");
