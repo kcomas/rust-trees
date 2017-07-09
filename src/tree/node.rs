@@ -14,7 +14,7 @@ pub struct Node {
 
 enum NodeType {
     Left,
-    Right
+    Right,
 }
 
 impl Node {
@@ -36,12 +36,22 @@ impl Node {
         }
     }
 
-    fn link_node(&mut self, child: &IsNode, c: &mut RefMut<Node>, parent: &IsNode, n_type: NodeType) {
+    fn link_node(
+        &mut self,
+        child: &IsNode,
+        c: &mut RefMut<Node>,
+        parent: &IsNode,
+        n_type: NodeType,
+    ) {
         let new_child = Some(child.clone());
         c.parent = Some(parent.clone());
         match n_type {
-            NodeType::Left => { self.left = new_child; }
-            NodeType::Right => { self.right = new_child; }
+            NodeType::Left => {
+                self.left = new_child;
+            }
+            NodeType::Right => {
+                self.right = new_child;
+            }
         }
     }
 

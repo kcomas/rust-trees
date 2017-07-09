@@ -1,5 +1,5 @@
 
-use super::node::{IsNode};
+use super::node::IsNode;
 
 struct Item {
     value: i64,
