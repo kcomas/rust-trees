@@ -2,15 +2,17 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
+pub type IsNode = Option<Rc<RefCell<Node>>>;
+
 pub struct Node {
-    parent: Option<Rc<RefCell<Node>>>,
-    pub left: Option<Rc<RefCell<Node>>>,
-    pub right: Option<Rc<RefCell<Node>>>,
+    parent: IsNode,
+    pub left: IsNode,
+    pub right: IsNode,
     pub value: u32,
 }
 
 impl Node {
-    pub fn new(parent: Option<Rc<RefCell<Node>>>, value: u32) -> Rc<RefCell<Node>> {
+    pub fn new(parent: IsNode, value: u32) -> Rc<RefCell<Node>> {
         Rc::new(RefCell::new(Node {
             parent: parent,
             left: None,
@@ -19,7 +21,7 @@ impl Node {
         }))
     }
 
-    pub fn add_child(&mut self, child: Rc<RefCell<Node>>) {
+    pub fn insert_child(&mut self, child: Rc<RefCell<Node>>) {
         let c = child.borrow();
         if c.value < self.value {
             self.left = Some(child.clone());
