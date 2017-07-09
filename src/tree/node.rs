@@ -4,9 +4,9 @@ use std::rc::Rc;
 
 pub struct Node {
     parent: Option<Rc<RefCell<Node>>>,
-    left: Option<Rc<RefCell<Node>>>,
-    right: Option<Rc<RefCell<Node>>>,
-    value: i32,
+    pub left: Option<Rc<RefCell<Node>>>,
+    pub right: Option<Rc<RefCell<Node>>>,
+    pub value: i32,
 }
 
 impl Node {
@@ -43,7 +43,4 @@ impl Node {
         println!("-----");
     }
 
-    pub fn print_graph(&self) {
-
-    }
 }

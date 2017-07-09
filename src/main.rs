@@ -1,6 +1,7 @@
 
 mod tree;
 use tree::node::Node;
+use tree::printer::Printer;
 
 fn main() {
     let root = Node::new(None, 10);
@@ -28,4 +29,6 @@ fn main() {
         r.add_child(sub_right.clone());
         r.print();
     }
+    let printer = Printer::new(root);
+    printer.basic_print();
 }
