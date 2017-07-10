@@ -2,7 +2,7 @@
 use super::node::{MabeNode, IsNode, Node};
 
 pub struct Container {
-    root: MabeNode,
+    pub root: MabeNode,
 }
 
 impl Container {

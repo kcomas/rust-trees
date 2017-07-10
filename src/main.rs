@@ -7,6 +7,9 @@ use tree::container::Container;
 extern crate rand;
 use rand::Rng;
 
+#[macro_use]
+extern crate serde_derive;
+
 fn print_test(name: &str) {
     println!("------ {} ------", name);
 }
