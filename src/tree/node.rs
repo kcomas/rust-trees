@@ -80,23 +80,7 @@ impl Node {
 
     pub fn add_child(&mut self, child: &IsNode, parent: &IsNode) {
         let mut c = child.borrow_mut();
-        if c.value < self.value {
-            if let Some(ref left) = self.left {
-                if let Ok(mut l) = left.try_borrow_mut() {
-                    l.add_mutable_child(child, &mut c, left);
-                }
-            } else {
-                self.link_node(child, &mut c, parent, NodeType::Left);
-            }
-        } else if c.value > self.value {
-            if let Some(ref right) = self.right {
-                if let Ok(mut r) = right.try_borrow_mut() {
-                    r.add_mutable_child(child, &mut c, right);
-                }
-            } else {
-                self.link_node(child, &mut c, parent, NodeType::Right);
-            }
-        }
+        self.add_mutable_child(child, &mut c, parent);
     }
 
     pub fn add_value(&mut self, value: u32, parent: &IsNode) {
