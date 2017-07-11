@@ -1,10 +1,11 @@
 
-use std::cell::{RefCell, RefMut};
+use std::cell::{RefCell, RefMut, Ref};
 use std::rc::Rc;
 
 pub type IsNode = Rc<RefCell<Node>>;
 pub type MabeNode = Option<IsNode>;
 pub type RefMutNode<'a> = RefMut<'a, Node>;
+pub type RefNode<'a> = Ref<'a, Node>;
 
 pub struct Node {
     pub parent: MabeNode,
