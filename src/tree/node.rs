@@ -148,7 +148,7 @@ fn recurse_print(node: &Node, level_counter: usize, n_type: NodeType) {
 #[cfg(test)]
 mod test {
 
-    use super::{Node, IsNode, RefMutNode};
+    use super::{Node, RefMutNode};
 
     fn test_parent(node: &RefMutNode, test_val: u32) {
         assert!(node.parent.is_some() == true);
