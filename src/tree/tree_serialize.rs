@@ -16,7 +16,7 @@ impl TreeSerialize {
 
         let tree_base = TreeSerialize {
             name: n.value.to_string(),
-            children: Vec::new()
+            children: Vec::new(),
         };
 
         tree_base

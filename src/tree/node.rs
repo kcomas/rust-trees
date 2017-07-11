@@ -4,6 +4,7 @@ use std::rc::Rc;
 
 pub type IsNode = Rc<RefCell<Node>>;
 pub type MabeNode = Option<IsNode>;
+pub type RefMutNode<'a> = RefMut<'a, Node>;
 
 pub struct Node {
     pub parent: MabeNode,
@@ -28,6 +29,7 @@ impl Node {
         }))
     }
 
+    #[allow(dead_code)]
     pub fn insert_child(&mut self, child: IsNode) {
         let c = child.borrow();
         if c.value < self.value {
@@ -58,7 +60,7 @@ impl Node {
     }
 
 
-    fn add_mutable_child(&mut self, child: &IsNode, c: &mut RefMut<Node>, parent: &IsNode) {
+    fn add_mutable_child(&mut self, child: &IsNode, c: &mut RefMutNode, parent: &IsNode) {
         if c.value < self.value {
             if let Some(ref left) = self.left {
                 if let Ok(mut l) = left.try_borrow_mut() {
@@ -141,4 +143,48 @@ fn recurse_print(node: &Node, level_counter: usize, n_type: NodeType) {
         recurse_print(&*right, level_counter + 1, NodeType::Right);
     }
 
+}
+
+#[cfg(test)]
+mod test {
+
+    use super::{Node, IsNode, RefMutNode};
+
+    fn test_parent(node: &RefMutNode, test_val: u32) {
+        assert!(node.parent.is_some() == true);
+        if let Some(ref p) = node.parent {
+            assert!(p.borrow().value == test_val);
+        }
+    }
+
+    #[test]
+    fn basic() {
+        let root = Node::new(None, 10);
+        let left = Node::new(Some(root.clone()), 5);
+        let right = Node::new(Some(root.clone()), 15);
+        {
+            let mut r = root.borrow_mut();
+            assert!(r.value == 10);
+            r.insert_child(left.clone());
+            r.insert_child(right.clone());
+        }
+        {
+            let mut l = left.borrow_mut();
+            assert!(l.value == 5);
+            test_parent(&l, 10);
+            let sub_left = Node::new(Some(left.clone()), 1);
+            let sub_right = Node::new(Some(left.clone()), 9);
+            l.insert_child(sub_left.clone());
+            l.insert_child(sub_right.clone());
+        }
+        {
+            let mut r = right.borrow_mut();
+            assert!(r.value == 15);
+            test_parent(&r, 10);
+            let sub_left = Node::new(Some(right.clone()), 11);
+            let sub_right = Node::new(Some(right.clone()), 20);
+            r.insert_child(sub_left.clone());
+            r.insert_child(sub_right.clone());
+        }
+    }
 }
