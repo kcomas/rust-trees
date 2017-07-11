@@ -162,29 +162,28 @@ mod test {
         let root = Node::new(None, 10);
         let left = Node::new(Some(root.clone()), 5);
         let right = Node::new(Some(root.clone()), 15);
+
         {
             let mut r = root.borrow_mut();
             assert!(r.value == 10);
             r.insert_child(left.clone());
             r.insert_child(right.clone());
         }
-        {
-            let mut l = left.borrow_mut();
-            assert!(l.value == 5);
-            test_parent(&l, 10);
-            let sub_left = Node::new(Some(left.clone()), 1);
-            let sub_right = Node::new(Some(left.clone()), 9);
-            l.insert_child(sub_left.clone());
-            l.insert_child(sub_right.clone());
-        }
-        {
-            let mut r = right.borrow_mut();
-            assert!(r.value == 15);
-            test_parent(&r, 10);
-            let sub_left = Node::new(Some(right.clone()), 11);
-            let sub_right = Node::new(Some(right.clone()), 20);
-            r.insert_child(sub_left.clone());
-            r.insert_child(sub_right.clone());
-        }
+
+        let mut l = left.borrow_mut();
+        assert!(l.value == 5);
+        test_parent(&l, 10);
+        let sub_left = Node::new(Some(left.clone()), 1);
+        let sub_right = Node::new(Some(left.clone()), 9);
+        l.insert_child(sub_left.clone());
+        l.insert_child(sub_right.clone());
+
+        let mut ri = right.borrow_mut();
+        assert!(ri.value == 15);
+        test_parent(&ri, 10);
+        let sub_left = Node::new(Some(right.clone()), 11);
+        let sub_right = Node::new(Some(right.clone()), 20);
+        ri.insert_child(sub_left.clone());
+        ri.insert_child(sub_right.clone());
     }
 }
