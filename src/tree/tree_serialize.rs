@@ -45,6 +45,4 @@ fn recurse_load(parent_node: &RefNode, parent_json: &mut TreeSerialize) {
     if let Some(ref right) = parent_node.right {
         insert(right);
     }
-
-
 }
