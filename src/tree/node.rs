@@ -166,6 +166,7 @@ mod test {
         {
             let mut r = root.borrow_mut();
             assert!(r.value == 10);
+            assert!(r.parent.is_none() == true);
             r.insert_child(left.clone());
             r.insert_child(right.clone());
         }
