@@ -21,8 +21,8 @@ impl TreeSerialize {
         tree_base
     }
 
-    pub fn get_last_child(&mut self) -> &mut TreeSerialize {
-        return self.children.last_mut().unwrap();
+    pub fn get_last_child(&mut self) -> Option<&mut TreeSerialize> {
+        return self.children.last_mut();
     }
 }
 
@@ -35,7 +35,9 @@ fn recurse_load(parent_node: &RefNode, parent_json: &mut TreeSerialize) {
             children: Vec::new(),
         };
         parent_json.children.push(tree);
-        recurse_load(&n, parent_json.get_last_child());
+        if let Some(last_child) = parent_json.get_last_child() {
+            recurse_load(&n, last_child);
+        }
     };
 
     if let Some(ref left) = parent_node.left {
