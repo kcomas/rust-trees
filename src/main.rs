@@ -4,7 +4,6 @@ extern crate serde_json;
 
 mod tree;
 use tree::container::Container;
-use tree::tree_serialize::TreeSerialize;
 
 extern crate rand;
 use rand::Rng;
@@ -21,11 +20,7 @@ fn container_test() {
     }
     cont.print_tree();
 
-    let tree = TreeSerialize::new(&cont.root.unwrap());
-
-    let json = serde_json::to_string(&tree).unwrap();
-
-    println!("{}", json);
+    println!("{}", cont.to_json());
 }
 
 fn main() {

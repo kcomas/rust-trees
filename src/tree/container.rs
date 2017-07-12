@@ -1,5 +1,7 @@
 
 use super::node::{MabeNode, IsNode, Node};
+use super::tree_serialize::TreeSerialize;
+use serde_json;
 
 pub struct Container {
     pub root: MabeNode,
@@ -35,5 +37,13 @@ impl Container {
         if let Some(ref r) = self.root {
             r.borrow().print_tree();
         }
+    }
+
+    pub fn to_json(&self) -> String {
+        if let Some(ref r) = self.root {
+            let tree = TreeSerialize::new(r);
+            return serde_json::to_string(&tree).unwrap();
+        }
+        String::from("{}")
     }
 }
