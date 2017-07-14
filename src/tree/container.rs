@@ -39,10 +39,14 @@ impl Container {
         }
     }
 
-    pub fn to_json(&self) -> String {
+    pub fn to_json(&self, pretty: bool) -> String {
         if let Some(ref r) = self.root {
             let tree = TreeSerialize::new(r);
-            return serde_json::to_string(&tree).unwrap();
+            if pretty {
+                return serde_json::to_string_pretty(&tree).unwrap();
+            } else {
+                return serde_json::to_string(&tree).unwrap();
+            }
         }
         String::from("{}")
     }

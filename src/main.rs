@@ -26,7 +26,7 @@ fn container_test() {
     }
     cont.print_tree();
 
-    println!("{}", cont.to_json());
+    println!("{}", cont.to_json(false));
 }
 
 fn main() {
